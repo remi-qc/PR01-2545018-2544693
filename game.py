@@ -58,7 +58,12 @@ def move_doodle():
     # sortir d'un côté avant de réapparaître de l'autre.
     # N'utilisez pas de dimensions numériques écrites directement.
 
+    doodle_center_x = doodle_dict["x"] + DOODLE_WIDTH//2
 
+    if doodle_center_x > SCREEN_WIDTH:
+        doodle_dict["x"] -= SCREEN_WIDTH 
+    elif doodle_center_x < 0:
+        doodle_dict["x"] += SCREEN_WIDTH
 
     return
 

@@ -40,12 +40,12 @@ def create_platform(x, y, platform_type="green"):
     platform = {
         "x": float(x),
         "y": float(y),
-        "type": "green",                    # TODO
-        "image": platform_images["green"],  # TODO
-        "vx": 0.0,                          # TODO
+        "type": platform_type,                    # DONE
+        "image": platform_images[platform_type],  # DONE
+        "vx": 0.0,                                # TODO
         "active": True,
         "width": PLATFORM_SIZE[0],
-        "height": PLATFORM_SIZE[1]           # TODO
+        "height": PLATFORM_SIZE[1]                # TODO
     }
 
     # TODO : Modifiez le dictionnaire ci-dessus pour qu'il dépende réellement

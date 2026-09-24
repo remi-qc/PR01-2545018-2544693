@@ -78,7 +78,7 @@ def choose_platform_type(green_probability, blue_probability, spring_probability
     r = random.random()
 
     cumul = 0
-    for p, i in enumerate(probabilites):
+    for i, p in enumerate(probabilites):
         cumul += p
         if r < cumul:
             return types[i]

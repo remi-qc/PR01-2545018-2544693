@@ -112,6 +112,7 @@ def check_platform_collisions():
     if (doodle_dict["vel_y"] > 0 and doodle_dict["y"] > doodle_dict["y"] - doodle_dict["vel_y"]):
         for platform in PLATFORMS:
             if platform["active"]:
+                # On s'iteresse juste a la collision avec les "pieds" du doodle
                 doodle_rect = (doodle_dict["x"], doodle_dict["y"]+DOODLE_HEIGHT, DOODLE_WIDTH, 1)
                 platform_rect = (platform["x"], platform["y"], platform["width"], platform["height"])
                 if(rects_collide(doodle_rect, platform_rect)):
@@ -143,12 +144,15 @@ def scroll_camera():
 
     if doodle_dict["y"] < CAMERA_SCROLL_THRESHOLD:
         doodle_dict["y"] -= doodle_dict["vel_y"]
-        for platform in PLATFORMS[:]: # On itere sur une copie vu qu'on va enlever des items de la liste
+        # On itere sur une copie vu qu'on va enlever des items de la liste
+        for platform in PLATFORMS[:]:
             platform["y"] -= doodle_dict["vel_y"]
             if platform["y"] > SCREEN_HEIGHT:
                 PLATFORMS.remove(platform)
       
         doodle_dict["score"] += int(-doodle_dict["vel_y"] * SCORE_RATIO)
+    
+    generate_new_platforms()
     return
 
 # ===========================================================
@@ -166,6 +170,16 @@ def generate_new_platforms():
     # Vous devrez partir de la plateforme actuellement la plus haute et
     # continuer à ajouter des plateformes tant que nécessaire. Utilisez
     # choose_platform_type(...) avec les probabilités indiquées dans le README.
+
+    # On veut avoir "one screen's worth" de plateformes en banque en haut
+    while PLATFORMS[-1]["y"] > -SCREEN_HEIGHT:
+        platform = create_platform(
+            random.randint(0, SCREEN_WIDTH - PLATFORM_WIDTH),
+            PLATFORMS[-1]["y"] - random.randint(MIN_PLATFORM_GAP, MAX_PLATFORM_GAP),
+            choose_platform_type(0.55, 0.20, 0.13)
+        )
+
+        PLATFORMS.append(platform)
 
     return
 

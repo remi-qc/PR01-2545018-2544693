@@ -200,6 +200,7 @@ def check_game_over():
     """
     if doodle_dict["y"] > SCREEN_HEIGHT:
         doodle_dict["lives"] -= 1
+        doodle_dict["high_score"] = max(doodle_dict["high_score"], doodle_dict["score"])
         return True
     return False
 

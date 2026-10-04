@@ -47,3 +47,6 @@ PLATFORMS = []
 
 # Dictionnaire global du Doodle
 doodle_dict = {}  # Sera rempli dans doodle.py
+
+# Multiplieur de score
+SCORE_RATIO = 0.1

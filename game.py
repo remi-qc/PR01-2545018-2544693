@@ -6,7 +6,7 @@ from config import (
     SCREEN_WIDTH, SCREEN_HEIGHT, GRAVITY, JUMP_VELOCITY, SPRING_JUMP_VELOCITY,
     DOODLE_SPEED, DOODLE_WIDTH, DOODLE_HEIGHT, PLATFORM_WIDTH,
     MIN_PLATFORM_GAP, MAX_PLATFORM_GAP, CAMERA_SCROLL_THRESHOLD,
-    PLATFORMS, doodle_dict, DOODLE_START_X, DOODLE_START_Y, LIVES
+    PLATFORMS, doodle_dict, DOODLE_START_X, DOODLE_START_Y, LIVES, SCORE_RATIO
 )
 from platforms import create_platform, choose_platform_type
 from doodle import doodle_left_img, doodle_right_img
@@ -141,6 +141,14 @@ def scroll_camera():
     # meilleur score doit être mis à jour. Les plateformes sorties sous
     # l'écran doivent être retirées, puis de nouvelles plateformes générées.
 
+    if doodle_dict["y"] < CAMERA_SCROLL_THRESHOLD:
+        doodle_dict["y"] -= doodle_dict["vel_y"]
+        for platform in PLATFORMS[:]: # On itere sur une copie vu qu'on va enlever des items de la liste
+            platform["y"] -= doodle_dict["vel_y"]
+            if platform["y"] > SCREEN_HEIGHT:
+                PLATFORMS.remove(platform)
+      
+        doodle_dict["score"] += int(-doodle_dict["vel_y"] * SCORE_RATIO)
     return
 
 # ===========================================================

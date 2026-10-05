@@ -118,7 +118,7 @@ def check_platform_collisions():
     if (doodle_dict["vel_y"] > 0 and doodle_dict["y"] > doodle_dict["y"] - doodle_dict["vel_y"]):
         for platform in PLATFORMS:
             if platform["active"]:
-                
+
                 # On s'iteresse juste a la collision avec les "pieds" du doodle
                 doodle_pieds_y = doodle_dict["y"] + DOODLE_HEIGHT
                 # Verticalement, le rectangle s'étend du y précédent au y actuel
@@ -159,8 +159,8 @@ def scroll_camera():
 
     if doodle_dict["y"] < CAMERA_SCROLL_THRESHOLD:
         doodle_dict["y"] -= doodle_dict["vel_y"]
-        # On itere sur une copie vu qu'on va enlever des items de la liste
-        for platform in PLATFORMS[:]:
+
+        for platform in PLATFORMS:
             platform["y"] -= doodle_dict["vel_y"]
             if platform["y"] > SCREEN_HEIGHT:
                 PLATFORMS.remove(platform)

@@ -118,14 +118,23 @@ def check_platform_collisions():
     if (doodle_dict["vel_y"] > 0 and doodle_dict["y"] > doodle_dict["y"] - doodle_dict["vel_y"]):
         for platform in PLATFORMS:
             if platform["active"]:
+                
                 # On s'iteresse juste a la collision avec les "pieds" du doodle
-                doodle_rect = (doodle_dict["x"], doodle_dict["y"]+DOODLE_HEIGHT, DOODLE_WIDTH, 1)
-                platform_rect = (platform["x"], platform["y"], platform["width"], platform["height"])
+                doodle_pieds_y = doodle_dict["y"] + DOODLE_HEIGHT
+                # Verticalement, le rectangle s'étend du y précédent au y actuel
+                doodle_rect = (doodle_dict["x"], doodle_pieds_y - doodle_dict["vel_y"], DOODLE_WIDTH, doodle_dict["vel_y"])
+                # Le rectangle plateforme doit avoir une épaisseur de plus que 0, sinon le doodle passe occasionellement au travers
+                platform_rect = (platform["x"], platform["y"], platform["width"], 0.1)
+
                 if(rects_collide(doodle_rect, platform_rect)):
+                    # Pour que les pieds ne descendent pas sous la plateforme une image à chaque rebond
+                    doodle_dict["y"] = platform["y"] - DOODLE_HEIGHT
+
                     if platform["type"] == "spring":
                         doodle_dict["vel_y"] = SPRING_JUMP_VELOCITY
                     else:
                         doodle_dict["vel_y"] = JUMP_VELOCITY
+
                     if platform["type"] == "brown":
                         platform["active"] = False
                     break
